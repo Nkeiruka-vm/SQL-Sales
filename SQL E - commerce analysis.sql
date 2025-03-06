@@ -1,16 +1,22 @@
 SELECT * FROM `e-commerce`.ecommerce_dataset;
+<<<<<<< HEAD
+\screenshot 2025-03-06-114215.png
+=======
+>>>>>>> 164116c781f702395d60f26a343053294145aec5
 
 -- Basic structure of the dataset 
 
 select *
 from `e-commerce`.ecommerce_dataset
 limit 15;
+\Screenshot 2025-03-06 114258.png
 
 -- Category List
 
 SELECT Category
 FROM `e-commerce`.ecommerce_dataset
 GROUP BY Category;
+\Screenshot 2025-03-06 114322.png
 
 -- which products categories are most popular by purchase count
 
@@ -18,6 +24,7 @@ SELECT Category, count(*) AS Purchase_count
 FROM ecommerce_dataset
 GROUP BY Category
 ORDER BY Category DESC;
+
 
 -- What is the average spending per category (final price)
 
