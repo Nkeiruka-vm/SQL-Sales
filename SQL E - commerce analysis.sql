@@ -1,19 +1,16 @@
 SELECT * FROM `e-commerce`.ecommerce_dataset;
 
--- Screenshot: ![\screenshot 2025-03-06-114215.png](https://github.com/Nkeiruka-vm/SQL-Sales/raw/main/path/to/your/screenshot/2025-03-06-114215.png)
 -- Basic structure of the dataset 
 
 select *
 from `e-commerce`.ecommerce_dataset
 limit 15;
-\Screenshot 2025-03-06 114258.png
 
 -- Category List
 
 SELECT Category
 FROM `e-commerce`.ecommerce_dataset
 GROUP BY Category;
-\Screenshot 2025-03-06 114322.png
 
 -- which products categories are most popular by purchase count
 
