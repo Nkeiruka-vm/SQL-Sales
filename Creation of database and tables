@@ -1,0 +1,246 @@
+/*
+=============================================================
+Create Database 
+=============================================================
+Script Purpose:
+    This script creates a new database named 'pqp_db' after checking if it already exists. 
+    If the database exists, it is dropped and recreated. 
+	
+*/
+
+DROP TABLE IF EXISTS `pqp_db`;
+
+CREATE DATABASE `pqp_db`;
+
+DROP TABLE IF EXISTS `pqp maneger_tbl`;
+
+-- create the `pqp maanger_tbl` database
+
+CREATE TABLE `pqp maneger_tbl` 
+(
+    MangID VARCHAR(10) PRIMARY KEY,
+    Manager VARCHAR(20)
+);
+
+
+INSERT INTO `pqp maneger_tbl`
+VALUES ("MG01", "Kezi");
+
+
+SELECT * FROM `pqp maneger_tbl`;
+
+
+-- create the location_tbl
+
+
+CREATE TABLE location_tbl (
+Loc_ID VARCHAR(10) PRIMARY KEY,
+Location VARCHAR(10) );
+
+
+
+INSERT INTO location_tbl (Loc_ID, Location)
+VALUES("LC01", "Lagos"),
+	  ("LC02", "Abuja");
+
+
+-- create the course_product_tbl
+
+
+CREATE TABLE course_product_tbl (
+    Cos_ID VARCHAR(10) PRIMARY KEY,
+    Course VARCHAR(20)
+);
+
+
+INSERT INTO course_product_tbl
+VALUES("CP01", "Data Analysis"),
+      ("CP02" , "UIUX"),
+      ("CP03" , "Cyber Security"),
+      ("CP04" , "System Admin"); 
+
+      
+-- create the candidate_tbl
+
+
+ CREATE TABLE candidate_tbl 
+ (
+    CandID VARCHAR(20) PRIMARY KEY,
+    Reg_date DATE,
+    Opp_type VARCHAR(50),
+    succ_story VARCHAR(50),
+    succ_date DATE,
+    Trainin_session VARCHAR(20),
+    Training_type VARCHAR(20),
+    MangID VARCHAR(10),
+    Cos_ID VARCHAR(10),
+    Loc_ID VARCHAR(10),
+    FOREIGN KEY (MangID) REFERENCES `pqp maneger_tbl`(MangID),
+    FOREIGN KEY (Cos_ID) REFERENCES course_product_tbl (Cos_ID),
+    FOREIGN KEY (Loc_ID) REFERENCES location_tbl(Loc_ID)
+);
+
+
+INSERT INTO candidate_tbl  
+VALUES
+    ('DMCC2002', '2021-02-09', 'Closed Won', 'Email', '2021-11-01', 'Weekend', 'Physical', 'MG08', 'CP01', 'LC02'),
+    ('DMCC2003', '2021-02-12', 'Closed Won', NULL, NULL, 'Weekend', 'Physical', 'MG08', 'CP01', 'LC02'),
+    ('DMCC2004', '2021-02-28', 'Closed Won', NULL, NULL, 'Weekend', 'Virtual', 'MG08', 'CP01', 'LC02'),
+    ('DMCC2005', '2021-03-08', 'Prospecting', NULL, NULL, 'Weekend', 'Virtual', 'MG03', 'CP01', 'LC02');
+
+    
+-- create the certificate_tbl    
+
+    
+    CREATE TABLE Certificate_tbl 
+    (
+    CertID VARCHAR(20) PRIMARY KEY,
+    Cert_status VARCHAR(20),
+    Moi VARCHAR(20),
+    CandID VARCHAR(20),
+    FOREIGN KEY (CandID) REFERENCES CANDIDATE_tbl(CandID)
+);
+
+
+INSERT INTO certificate_tbl 
+VALUES
+    ('PQDMCLW00011', 'Collected', 'Email', 'DMCC2002'),
+    ('PQDMCLW00012', NULL, NULL, 'DMCC2003'),
+    ('PQDMCLW00013', NULL, NULL, 'DMCC2004'),
+    ('PQDMCLW00014', 'Not Qualified', NULL, 'DMCC2005');
+    
+    
+-- create the candidate_course_tbl    
+    
+    
+ CREATE TABLE CANDIDATE_Course_tbl
+ (
+    CandID VARCHAR(20),
+    Cos_ID VARCHAR(10),
+    PRIMARY KEY (CandID, Cos_ID),
+    FOREIGN KEY (CandID) REFERENCES CANDIDATE_tbl(CandID),
+    FOREIGN KEY (Cos_ID) REFERENCES Course_product_tbl(Cos_ID)
+);
+
+
+INSERT INTO Candidate_course_tbl 
+VALUES
+('DMCC2002', 'CP01');
+
+
+-- create the Trans_tbl
+
+
+CREATE TABLE Trans_tbl 
+(
+    TransID VARCHAR(10) PRIMARY KEY,
+    Promo_code VARCHAR(20),
+    Payment_date_1 DATE,
+    Payment_date_2 DATE,
+    Payment_date_3 DATE,
+    Installment_1 DECIMAL (10,2),
+    Installment_2 DECIMAL (10,2),
+    Installment_3 DECIMAL (10,2),
+    Amount DECIMAL (10,2),
+    CandID VARCHAR(20),
+    Cos_ID VARCHAR(10),
+    Loc_ID VARCHAR(10),
+    MangID VARCHAR(10),
+    FOREIGN KEY (CandID) REFERENCES CANDIDATE_tbl(CandID),
+    FOREIGN KEY (Cos_ID) REFERENCES Course_product_tbl(Cos_ID),
+    FOREIGN KEY (Loc_ID) REFERENCES Location_tbl(Loc_ID),
+    FOREIGN KEY (MangID) REFERENCES `pqp maneger_tbl`(MangID)
+);
+
+
+INSERT INTO Trans_tbl 
+(
+    TransID, Amount, Promo_code, Installment_1, Installment_2, Installment_3, 
+    Payment_date_1, Payment_date_2, Payment_date_3, CandID, MangID, Cos_ID, Loc_ID
+) 
+VALUES
+('TR00', 75000, 'Referals', 25000, 25000, 25000, 
+ '2021-02-24', NULL, NULL, 'DMCC2002', 'MG08', 'CP01', 'LC02'),
+('TR10', 75000, 'Referals', 25000, 25000, 25000, 
+ '2021-02-12', NULL, NULL, 'DMCC2003', 'MG08', 'CP01', 'LC02');
+
+
+-- Preview of tables 
+
+
+SELECT CandID, Reg_date, Training_type 
+FROM candidate_tbl;
+
+
+ -- find  virtual candidates who training session are weekends
+
+
+SELECT CandID, Trainin_session 
+FROM candidate_tbl 
+WHERE Training_type = "virtual";
+
+
+ -- How many ceriD has been collected
+
+
+SELECT CertID, CandID 
+FROM certificate_tbl 
+WHERE Cert_status = "Collected";
+
+
+-- Deletion in tables
+
+
+DELETE FROM location_tbl 
+WHERE Loc_ID IN ("LCO01", "LCO2");
+
+
+SELECT TransID, CandID, Amount 
+FROM trans_tbl 
+WHERE Amount > 200000;
+
+
+SELECT Loc_ID 
+FROM location_tbl 
+WHERE Location = "Lagos";
+
+
+SELECT CandID, Reg_date, Opp_type
+FROM candidate_tbl
+WHERE "2021-02-01" AND "2021-02-28" AND "Training_type" = "Physical"
+ORDER BY Reg_date;
+
+
+-- Join 
+
+
+SELECT Course, Installment_1, SUM(Installment_1) AS total_installemt_1
+FROM trans_tbl, course_product_tbl
+JOIN trans_tbl Ttb
+ON cp.course_product_tbl = Ttb.cp 
+GROUP BY Cos_ID;
+
+
+SELECT CertID, candID
+FROM certificate_tbl
+WHERE CertID IS NOT NULL AND Moi = "Email"
+ORDER BY CertID DESC;
+
+
+SELECT MangID, Loc_ID, sum(Amount) AS "total amount", count(TransID)
+FROM trans_tbl
+GROUP BY MangID, Loc_ID
+HAVING COUNT(TransID) > 1;
+
+
+SELECT CandID, Promo_code, Amount AS "total Payment amount"
+FROM trans_tbl
+WHERE Installment_1 + Installment_2 + Installment_3 = Amount 
+AND Amount = 70000;
+
+
+SELECT Training_type, count(CandID) AS Total_candidate
+FROM candidate_tbl
+GROUP BY Training_type
+HAVING COUNT(CandID)>1
+ORDER BY  Total_candidate DESC;
