@@ -1,5 +1,5 @@
 SELECT * FROM `e-commerce`.ecommerce_dataset;
-https://1drv.ms/i/s!AoiBcCU-vjO4cJvQu1K8HDNX99U
+![E - commerce analysis screenshot](https://1drv.ms/i/s!AoiBcCU-vjO4cJvQu1K8HDNX99U)
 
 -- Basic structure of the dataset 
 
