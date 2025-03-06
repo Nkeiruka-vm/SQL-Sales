@@ -1,6 +1,6 @@
 SELECT * FROM `e-commerce`.ecommerce_dataset;
-\screenshot 2025-03-06-114215.png
 
+-- Screenshot: ![\screenshot 2025-03-06-114215.png](https://github.com/Nkeiruka-vm/SQL-Sales/raw/main/path/to/your/screenshot/2025-03-06-114215.png)
 -- Basic structure of the dataset 
 
 select *
