@@ -1,8 +1,5 @@
 SELECT * FROM `e-commerce`.ecommerce_dataset;
-<<<<<<< HEAD
 \screenshot 2025-03-06-114215.png
-=======
->>>>>>> 164116c781f702395d60f26a343053294145aec5
 
 -- Basic structure of the dataset 
 
